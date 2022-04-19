@@ -20,7 +20,7 @@ def _generate_traces(name_df_color_data):
             name=name,
             x=df.index,
             y=df,
-            mode='line',
+            mode='lines',
             line={'color': color}))
 
     return traces
@@ -43,9 +43,11 @@ def print_dataframe(df, n_rows=10, n_columns=3):
     formatted_df = formatted_df.applymap('{:.3f}'.format)
 
     if len(df.columns) > n_columns:
-        formatted_df[missing_val_str] = [missing_val_str]*len(formatted_df.index)
+        formatted_df[missing_val_str] = [
+            missing_val_str]*len(formatted_df.index)
     if len(df.index) > n_rows:
-        formatted_df.loc[missing_val_str] = [missing_val_str]*len(formatted_df.columns)
+        formatted_df.loc[missing_val_str] = [
+            missing_val_str]*len(formatted_df.columns)
 
     trace = go.Table(
         type='table',
@@ -98,4 +100,5 @@ def plot_shifted_returns(df_shited, df, title):
 
 def print_top(df, name, top_n=10):
     print('{} Most {}:'.format(top_n, name))
-    print(', '.join(df.sum().sort_values(ascending=False).index[:top_n].values.tolist()))
+    print(', '.join(df.sum().sort_values(
+        ascending=False).index[:top_n].values.tolist()))
