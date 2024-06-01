@@ -1,5 +1,6 @@
 import collections
 from collections import OrderedDict
+import collections.abc
 import copy
 import pandas as pd
 import numpy as np
@@ -142,8 +143,8 @@ def assert_structure(received_obj, expected_obj, obj_name):
 def does_data_match(obj_a, obj_b):
     if type(obj_a) == pd.DataFrame:
         # Sort Columns
-        obj_b = obj_b.sort_index(1)
-        obj_a = obj_a.sort_index(1)
+        obj_b = obj_b.sort_index()
+        obj_a = obj_a.sort_index()
 
     if type(obj_a) in {pd.DataFrame, pd.Series}:
         # Sort Indices
@@ -154,7 +155,7 @@ def does_data_match(obj_a, obj_b):
     except TypeError:
         data_is_close = obj_b == obj_a
     else:
-        if isinstance(obj_a, collections.Iterable):
+        if isinstance(obj_a, collections.abc.Iterable):
             data_is_close = data_is_close.all()
 
     return data_is_close

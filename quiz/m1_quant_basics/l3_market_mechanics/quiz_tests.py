@@ -8,11 +8,11 @@ def test_days_to_weeks(fn):
     tickers = generate_random_tickers(3)
     dates = pd.date_range('10/10/2018', periods=28, freq='D')
     resampled_dates = [
-        pd.Timestamp('2018-10-14 00:00:00', freq='W-SUN'),
-        pd.Timestamp('2018-10-21 00:00:00', freq='W-SUN'),
-        pd.Timestamp('2018-10-28 00:00:00', freq='W-SUN'),
-        pd.Timestamp('2018-11-04 00:00:00', freq='W-SUN'),
-        pd.Timestamp('2018-11-11 00:00:00', freq='W-SUN')]
+        pd.Timestamp('2018-10-14 00:00:00'),
+        pd.Timestamp('2018-10-21 00:00:00'),
+        pd.Timestamp('2018-10-28 00:00:00'),
+        pd.Timestamp('2018-11-04 00:00:00'),
+        pd.Timestamp('2018-11-11 00:00:00')]
 
     fn_inputs = {
         'open_prices': pd.DataFrame(
