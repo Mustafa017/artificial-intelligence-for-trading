@@ -21,14 +21,14 @@ def _generate_buy_annotations(prices, signal):
     return [{
         'x': index, 'y': price, 'text': 'Long', 'bgcolor': helper.color_scheme['background_label'],
         'ayref': 'y', 'ax': 0, 'ay': 20}
-        for index, price in prices[signal == 1].iteritems()]
+        for index, price in prices[signal == 1].items()]
 
 
 def _generate_sell_annotations(prices, signal):
     return [{
         'x': index, 'y': price, 'text': 'Short', 'bgcolor': helper.color_scheme['background_label'],
         'ayref': 'y', 'ax': 0, 'ay': 160}
-        for index, price in prices[signal == -1].iteritems()]
+        for index, price in prices[signal == -1].items()]
 
 
 def _generate_second_tetration_stock(stock_symbol, dates):
