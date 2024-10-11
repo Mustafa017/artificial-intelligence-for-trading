@@ -46,14 +46,21 @@ def _generate_second_tetration_stock(stock_symbol, dates):
         'date': dates,
         'base_line': np.power(linear_line, linear_line)})
 
-    sector_stock['base_line'] = sector_stock['base_line'] + all_noise[0]*sector_stock['base_line']
-    sector_stock['adj_open'] = sector_stock['base_line'] + all_noise[1]*sector_stock['base_line']
-    sector_stock['adj_close'] = sector_stock['base_line'] + all_noise[2]*sector_stock['base_line']
-    sector_stock['adj_high'] = sector_stock['base_line'] + all_noise[3]*sector_stock['base_line']
-    sector_stock['adj_low'] = sector_stock['base_line'] + all_noise[4]*sector_stock['base_line']
+    sector_stock['base_line'] = sector_stock['base_line'] + \
+        all_noise[0]*sector_stock['base_line']
+    sector_stock['adj_open'] = sector_stock['base_line'] + \
+        all_noise[1]*sector_stock['base_line']
+    sector_stock['adj_close'] = sector_stock['base_line'] + \
+        all_noise[2]*sector_stock['base_line']
+    sector_stock['adj_high'] = sector_stock['base_line'] + \
+        all_noise[3]*sector_stock['base_line']
+    sector_stock['adj_low'] = sector_stock['base_line'] + \
+        all_noise[4]*sector_stock['base_line']
 
-    sector_stock['adj_high'] = sector_stock[['adj_high', 'adj_open', 'adj_close']].max(axis=1)
-    sector_stock['adj_low'] = sector_stock[['adj_low', 'adj_open', 'adj_close']].min(axis=1)
+    sector_stock['adj_high'] = sector_stock[[
+        'adj_high', 'adj_open', 'adj_close']].max(axis=1)
+    sector_stock['adj_low'] = sector_stock[[
+        'adj_low', 'adj_open', 'adj_close']].min(axis=1)
 
     return sector_stock.drop(columns='base_line')
 
@@ -72,7 +79,8 @@ def generate_tb_sector(dates):
         'altaica', 'urumiensis']
 
     return [
-        _generate_second_tetration_stock(stock_name[:symbol_length].upper(), dates)
+        _generate_second_tetration_stock(
+            stock_name[:symbol_length].upper(), dates)
         for stock_name in stock_names]
 
 
@@ -101,7 +109,8 @@ def plot_high_low(prices, lookback_high, lookback_low, title):
         name='Column lookback_low',
         line={'color': helper.color_scheme['minor_line']})
 
-    offline_py.iplot({'data': [stock_trace, high_trace, low_trace], 'layout': layout}, config=config)
+    offline_py.iplot(
+        {'data': [stock_trace, high_trace, low_trace], 'layout': layout}, config=config)
 
 
 def plot_signal(price, signal, title):
@@ -177,18 +186,19 @@ def plot_signal_returns(prices, signal_return_list, titles):
     for (signal_return, signal, lookahead_days), color, title in zip(signal_return_list, colors, titles):
         non_zero_signals = signal_return[signal_return != 0]
         signal_return_trace = go.Scatter(
-                x=non_zero_signals.index,
-                y=non_zero_signals,
-                name='{} Day Lookahead'.format(lookahead_days),
-                line={'color': str(color)},
-                yaxis='y2')
+            x=non_zero_signals.index,
+            y=non_zero_signals,
+            name='{} Day Lookahead'.format(lookahead_days),
+            line={'color': str(color)},
+            yaxis='y2')
 
         buy_annotations = _generate_buy_annotations(prices, signal)
         sell_annotations = _generate_sell_annotations(prices, signal)
         layout['title'] = title
         layout['annotations'] = buy_annotations + sell_annotations
 
-        offline_py.iplot({'data': [stock_trace, signal_return_trace], 'layout': layout}, config=config)
+        offline_py.iplot(
+            {'data': [stock_trace, signal_return_trace], 'layout': layout}, config=config)
 
 
 def plot_signal_histograms(signal_list, title, subplot_titles):
@@ -199,9 +209,11 @@ def plot_signal_histograms(signal_list, title, subplot_titles):
     x_range = [all_values.min(), all_values.max()]
     y_range = [0, 1500]
     config = helper.generate_config()
-    colors = Color(helper.color_scheme['low_value']).range_to(Color(helper.color_scheme['high_value']), len(signal_series_list))
+    colors = Color(helper.color_scheme['low_value']).range_to(
+        Color(helper.color_scheme['high_value']), len(signal_series_list))
 
-    fig = py.subplots.make_subplots(rows=1, cols=len(signal_series_list), subplot_titles=subplot_titles, print_grid=False)
+    fig = py.tools.make_subplots(rows=1, cols=len(
+        signal_series_list), subplot_titles=subplot_titles, print_grid=False)
     fig['layout'].update(title=title, showlegend=False)
 
     for series_i, (signal_series, color) in enumerate(zip(signal_series_list, colors), 1):
@@ -223,7 +235,8 @@ def plot_signal_to_normal_histograms(signal_list, title, subplot_titles):
     y_range = [0, 1500]
     config = helper.generate_config()
 
-    fig = py.subplots.make_subplots(rows=1, cols=len(signal_series_list), subplot_titles=subplot_titles, print_grid=False)
+    fig = py.subplots.make_subplots(rows=1, cols=len(
+        signal_series_list), subplot_titles=subplot_titles, print_grid=False)
     fig['layout'].update(title=title)
 
     for series_i, signal_series in enumerate(signal_series_list, 1):
@@ -234,7 +247,8 @@ def plot_signal_to_normal_histograms(signal_list, title, subplot_titles):
             name='Signal Return Distribution',
             showlegend=False)
         normal_trace = go.Histogram(
-            x=np.random.normal(np.mean(filtered_series), np.std(filtered_series), len(filtered_series)),
+            x=np.random.normal(np.mean(filtered_series), np.std(
+                filtered_series), len(filtered_series)),
             marker={'color': helper.color_scheme['shadow']},
             name='Normal Distribution',
             showlegend=False)
