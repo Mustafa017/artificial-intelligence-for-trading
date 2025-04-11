@@ -207,15 +207,17 @@ def plot_covariance_returns_correlation(correlation, title):
         height=800)
 
     figure = go.Figure(data=data, layout=layout)
-    figure['layout']['xaxis'].update({'domain': [.15, 1]})
-    figure['layout']['xaxis'].update(xaxis1_layout)
-    figure['layout']['yaxis'].update({'domain': [0, .85]})
-    figure['layout']['yaxis'].update(xaxis1_layout)
+    # print("Dictionary Representation of A Graph Object:\n\n" + str(figure.to_dict()))
 
-    figure['layout']['xaxis2'].update({'domain': [0, .15]})
-    figure['layout']['xaxis2'].update(xaxis2_layout)
-    figure['layout']['yaxis2'].update({'domain': [.825, .975]})
-    figure['layout']['yaxis2'].update(xaxis2_layout)
+    figure.update_layout(xaxis={'domain': [.15, 1]})
+    figure.update_layout(xaxis=xaxis1_layout)
+    figure.update_layout(yaxis={'domain': [0, .85]})
+    figure.update_layout(yaxis=xaxis1_layout)
+
+    figure.update_layout(xaxis2={'domain': [0, .15]})
+    figure.update_layout(xaxis2=xaxis2_layout)
+    figure.update_layout(yaxis2={'domain': [.825, .975]})
+    figure.update_layout(yaxis2=xaxis2_layout)
 
     offline_py.plot(figure, config=config,
                     filename=graph_path, auto_open=False)
